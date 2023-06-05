@@ -1,0 +1,19 @@
+<h1 *ngIf="id">{{ this.id }}</h1>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted }" />
+                
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted }" />
+    </div>
+    <div>
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+            Login
+        </button>
+        <a routerLink="/register" class="btn btn-link">Register</a>
+    </div>
+</form>
