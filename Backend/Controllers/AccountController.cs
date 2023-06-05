@@ -44,8 +44,9 @@ public class AccountController : ControllerBase {
     [HttpPost("login")]
     public ActionResult<string> Login([FromBody]LoginRequest loginInfo) {
         _logger.LogInformation("Login request received: {loginRequest}", loginInfo.Description);
-        var account = accounts[loginInfo.Username]; //Account?
-        return account != null && loginInfo.Password == account.Password ? Ok(account.ID) : Unauthorized(); 
+        if (!accounts.ContainsKey(loginInfo.Username)) { return Unauthorized(); }
+        var account = accounts[loginInfo.Username];
+        return loginInfo.Password == account.Password ? Ok(account.ID) : Unauthorized(); 
     }
 
     [HttpGet()]

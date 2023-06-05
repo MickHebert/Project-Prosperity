@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -25,6 +26,14 @@ export class LoginComponent {
   onSubmit() {
     this.submitted = true;
     this.loading = true;
-    this.accountService.login(this.loginForm.value.username ?? "", this.loginForm.value.password ?? "").subscribe(x => this.id = x)
+    this.accountService.login(this.loginForm.value.username ?? "", this.loginForm.value.password ?? "").subscribe({
+      next: (userId) => this.id = userId,
+      error: (e: HttpErrorResponse) => {
+        console.log("error", e)
+        this.id = e.message
+        this.loading = false
+      },
+      complete: () => this.loading = false
+    });
   }
 }
